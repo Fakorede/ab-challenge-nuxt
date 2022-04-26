@@ -93,7 +93,7 @@
                     {{ transaction.date | formatDate }}
                   </td>
                   <td class="px-3 py-2 text-left" colspan="1">
-                    {{ transaction.amount }}
+                    {{ transaction.amount | formatAmount }}
                     <span class="text-gray-300">{{
                       transaction.currency
                     }}</span>
@@ -185,6 +185,10 @@ export default {
       if (mm < 10) mm = '0' + mm
 
       return dd + '/' + mm + '/' + year
+    },
+    formatAmount(value) {
+      if (!value) return ''
+      return parseFloat(value).toFixed(2)
     },
   },
   data() {
