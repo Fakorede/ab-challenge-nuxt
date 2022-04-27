@@ -53,6 +53,18 @@
                 :colspan="field.span"
               >
                 <span class="text-sm">{{ field.label }}</span>
+                <template v-if="idx === 2">
+                  <span
+                    v-if="sortOrder === 'desc'"
+                    @click="changeSortOrder('asc')"
+                    >&uarr;</span
+                  >
+                  <span
+                    v-if="sortOrder === 'asc'"
+                    @click="changeSortOrder('desc')"
+                    >&darr;</span
+                  >
+                </template>
               </th>
             </tr>
           </thead>
@@ -134,12 +146,14 @@ const GET_TRANSACTIONS = {
       $accountId: String
       $startDate: String
       $endDate: String
+      $sortOrder: String
     ) {
       transactions(
         filters: {
           accountId: $accountId
           startDate: $startDate
           endDate: $endDate
+          sortOrder: $sortOrder
         }
       ) {
         id
@@ -163,6 +177,7 @@ const GET_TRANSACTIONS = {
       accountId: this.accountId,
       startDate: this.startDate,
       endDate: this.endDate,
+      sortOrder: this.sortOrder,
     }
   },
 }
@@ -196,6 +211,7 @@ export default {
       accountId: '',
       startDate: '',
       endDate: '',
+      sortOrder: 'desc',
       fields: [
         { label: 'Reference', span: 2 },
         { label: 'Category', span: 1 },
@@ -207,6 +223,9 @@ export default {
   methods: {
     navigate(id) {
       this.$router.push(`/transaction/${id}`)
+    },
+    changeSortOrder(val) {
+      this.sortOrder = val
     },
   },
 }
