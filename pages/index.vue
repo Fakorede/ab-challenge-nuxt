@@ -121,6 +121,15 @@
           </tbody>
         </table>
       </div>
+      <div class="mt-5 flex">
+        <button
+          class="ml-auto px-4 py-3 border border-gray-100 rounded hover:bg-gray-700 visited:bg-gray-900 bg-gray-900 text-gray-100"
+          type="button"
+          @click="fetchMore"
+        >
+          More results
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -147,6 +156,8 @@ const GET_TRANSACTIONS = {
       $startDate: String
       $endDate: String
       $sortOrder: String
+      $take: String
+      $cursor: String
     ) {
       transactions(
         filters: {
@@ -154,6 +165,8 @@ const GET_TRANSACTIONS = {
           startDate: $startDate
           endDate: $endDate
           sortOrder: $sortOrder
+          take: $take
+          cursor: $cursor
         }
       ) {
         id
@@ -178,6 +191,8 @@ const GET_TRANSACTIONS = {
       startDate: this.startDate,
       endDate: this.endDate,
       sortOrder: this.sortOrder,
+      take: this.take,
+      cursor: this.cursor,
     }
   },
 }
@@ -193,7 +208,7 @@ export default {
 
       const date = new Date(value)
       const year = date.getFullYear()
-      let mm = date.getMonth() + 1 // Months start at 0!
+      let mm = date.getMonth() + 1
       let dd = date.getDate()
 
       if (dd < 10) dd = '0' + dd
@@ -212,6 +227,8 @@ export default {
       startDate: '',
       endDate: '',
       sortOrder: 'desc',
+      take: '100',
+      cursor: '',
       fields: [
         { label: 'Reference', span: 2 },
         { label: 'Category', span: 1 },
@@ -226,6 +243,9 @@ export default {
     },
     changeSortOrder(val) {
       this.sortOrder = val
+    },
+    fetchMore() {
+      this.cursor = this.transactions[this.transactions.length - 1].id
     },
   },
 }

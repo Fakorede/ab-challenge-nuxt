@@ -2,7 +2,7 @@
   <div class="flex justify-start min-h-screen bg-gray-100 px-5 lg:px-24 py-5">
     <div v-if="$apollo.queries.transaction.loading">Loading Data...</div>
     <div v-else class="bg-white w-full p-4">
-      <h1 class="font-semibold text-base">Transactions</h1>
+      <h1 class="font-semibold text-base">Transaction</h1>
       <div class="mt-1 flex flex-col space-y-4">
         <ul v-if="transaction">
           <li>ID: {{ $route.params.id }}</li>
